@@ -91,6 +91,23 @@ namespace Recycling
 			if (returnActive) _gameObject.SetActive(true);
 				return true;
 		}
+		
+		public static bool TryGrab<T>(out T _object, bool returnActive = true) where T: MonoBehaviour
+		{
+			_object = null;
+
+			if (!_typeDict.TryGetValue(typeof(T), out _bin)) 
+				return false;
+			
+			if (!_bin.Grab(out GameObject _gameObject)) 
+				return false;
+			
+			if (returnActive) _gameObject.SetActive(true);
+
+			_object = _gameObject.GetComponent<T>();
+			
+			return true;
+		}
 	}
 
 	//============================================================================================================//
